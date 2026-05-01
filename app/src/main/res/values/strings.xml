@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">UnibucFMI2026</string>
 
+    <string name="welcome" translatable="false">Welcome</string>
+    <string name="login_page" translatable="false">Login page</string>
+    <string name="register_page" translatable="false">Register page</string>
+    <string name="password" translatable="false">Password</string>
+    <string name="email" translatable="false">Email</string>
+    <string name="login" translatable="false">Login</string>
+    <string name="register" translatable="false">Register</string>
+    <string name="goto_register" translatable="false">Don\'t have an account? Register</string>
+    <string name="goto_login" translatable="false">Already have an account? Login</string>
+    <string name="invalid_email" translatable="false">Email is invalid</string>
+    <string name="invalid_password" translatable="false">Password must be longer than 3 characters</string>
+
 </resources>

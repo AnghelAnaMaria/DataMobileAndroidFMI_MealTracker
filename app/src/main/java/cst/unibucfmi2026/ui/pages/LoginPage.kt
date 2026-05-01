@@ -21,6 +21,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,17 +29,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import cst.unibucfmi2026.R
 import androidx.test.espresso.base.Default
 import cst.unibucfmi2026.ui.theme.UnibucFMI2026Theme
 
 @Composable
-fun LoginPage() {
+fun LoginPage(
+    onRegiserClick: () -> Unit = {},
+    onLoginClick: () -> Unit = {}
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isPasswordVisible by remember { mutableStateOf(false) }
@@ -51,13 +57,13 @@ fun LoginPage() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Welcome",
+            text = stringResource(R.string.welcome),
             style = MaterialTheme.typography.headlineLarge,
             color = MaterialTheme.colorScheme.primary
         )
 
         Text(
-            text = "Login Page",
+            text = stringResource(R.string.login_page),
             style = MaterialTheme.typography.headlineSmall,
             color = MaterialTheme.colorScheme.primary
         )
@@ -70,7 +76,7 @@ fun LoginPage() {
                 email = newVal
             },
             label = {
-                Text("Email")
+                Text(stringResource(R.string.email))
             },
             leadingIcon = {
                 Icon(
@@ -94,7 +100,7 @@ fun LoginPage() {
                 password = newVal
             },
             label = {
-                Text("Password")
+                Text(stringResource(R.string.password))
             },
             leadingIcon = {
                 Icon(
@@ -129,11 +135,11 @@ fun LoginPage() {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = {
-                //TODO
-            },
+            onClick = onLoginClick,
             modifier = Modifier.fillMaxWidth()
-        ) { Text("Login")}
+        ) { Text(stringResource(R.string.login)) }
+
+        TextButton(onClick = onRegiserClick) { Text(stringResource(R.string.goto_register)) }
 
     }
 }
