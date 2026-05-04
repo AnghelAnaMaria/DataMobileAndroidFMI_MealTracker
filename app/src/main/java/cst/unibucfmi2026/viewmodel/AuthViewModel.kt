@@ -1,0 +1,49 @@
+package cst.unibucfmi2026.viewmodel
+
+import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+
+data class AuthState(
+    val isLoading: Boolean = false,
+    val errorMessage: String? = null
+) //Lombook like
+
+class AuthViewModel : ViewModel() {
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance() //auth
+    private val _authState = MutableStateFlow(AuthState()) //parametru de stare
+    val authState = _authState.asStateFlow()
+
+    val isLoggedIn: Boolean
+        get() = auth.currentUser != null
+
+    fun login(email: String, password: String, onSucess: () -> Unit) {
+        _authState.value = AuthState(true)
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnSuccessListener {
+                _authState.value = AuthState()
+                onSucess()
+            }
+            .addOnFailureListener { error ->
+                _authState.value = AuthState(errorMessage = error.message)
+            }
+
+    }
+
+    fun register(email: String, password: String, onSuccess: () -> Unit) {
+        _authState.value = AuthState(true)
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnSuccessListener {
+                _authState.value = AuthState()
+                onSuccess()
+            }
+            .addOnFailureListener { error ->
+                _authState.value = AuthState(errorMessage = error.message)
+            }
+    }
+
+    fun logout(){
+        auth.signOut()
+    }
+}

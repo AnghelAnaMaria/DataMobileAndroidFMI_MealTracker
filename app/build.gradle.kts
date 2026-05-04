@@ -1,12 +1,12 @@
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.gms.google-services")
 }
 
 android {
     namespace = "cst.unibucfmi2026"
-    compileSdk =36
+    compileSdk = 36
 
 
     defaultConfig {
@@ -34,28 +34,28 @@ android {
     }
     buildFeatures {
         compose = true
-        buildConfig=true
+        buildConfig = true
     }
 
-    flavorDimensions +="environment"
-    productFlavors{
-        create("dev"){
-            dimension="environment"
-            applicationIdSuffix=".dev"
-            versionCode=1
-            versionName="1.0.0-dev"
-            buildConfigField("String","BASE_URL", " \"https://dev://dev.myapp.com\" ")
+    flavorDimensions += "environment"
+    productFlavors {
+        create("dev") {
+            dimension = "environment"
+            applicationIdSuffix = ".dev"
+            versionCode = 1
+            versionName = "1.0.0-dev"
+            buildConfigField("String", "BASE_URL", " \"https://dev.myapp.com\" ")
         }
-        create("qa"){
-            dimension="environment"
-            applicationIdSuffix=".qa"
-            versionCode=1
-            versionName="1.0.6-qa"
-            buildConfigField("String","BASE_URL", "\"https://dev://qa.myapp.com\"")
+        create("qa") {
+            dimension = "environment"
+            applicationIdSuffix = ".qa"
+            versionCode = 1
+            versionName = "1.0.6-qa"
+            buildConfigField("String", "BASE_URL", "\"https://qa.myapp.com\"")
         }
-        create("prod"){
-            dimension="environment"
-            buildConfigField("String","BASE_URL", "\"https://dev://myapp.com\"")
+        create("prod") {
+            dimension = "environment"
+            buildConfigField("String", "BASE_URL", "\"https://myapp.com\"")
         }
     }
 }
@@ -72,15 +72,15 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)
-   // implementation(platform(libs.firebase.bom))
-   // implementation(libs.firebase.analytics)
+    // implementation(platform(libs.firebase.bom))
+    // implementation(libs.firebase.analytics)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.espresso.core)
     implementation(libs.material)
     implementation(libs.androidx.compose.material.icons.extended)
     testImplementation(libs.junit)
-   // implementation(libs.androidx.navigation.compose)
+    // implementation(libs.androidx.navigation.compose)
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
@@ -88,4 +88,12 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
+
+    // Firebase BoM
+    implementation(platform(libs.firebase.bom))
+
+    // Firebase services
+    implementation(libs.firebase.auth)       // Authentication
+//    implementation(libs.firebase.firestore)  // Database
+    implementation(libs.firebase.analytics)  // Analytics
 }
