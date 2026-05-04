@@ -1,7 +1,14 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     id("com.google.gms.google-services")
+}
+
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
 }
 
 android {
@@ -17,6 +24,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "FDC_API_KEY", "\"${localProperties.getProperty("FDC_API_KEY", "DEMO_KEY")}\"")
     }
 
     buildTypes {
@@ -96,4 +104,9 @@ dependencies {
     implementation(libs.firebase.auth)       // Authentication
 //    implementation(libs.firebase.firestore)  // Database
     implementation(libs.firebase.analytics)  // Analytics
+
+    // Networking
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp.logging)
 }
