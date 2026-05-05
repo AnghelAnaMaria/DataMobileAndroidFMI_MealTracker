@@ -9,64 +9,14 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-data class FoodItem(
-    val fdcId: Int,
-    val description: String,
-    val dataType: String?,
-    val publicationDate: String?,
-    val foodCategory: String?,
-    val foodNutrients: List<FoodNutrient>?
-)
-
-data class FoodNutrient(
-    val nutrientId: Int?,
-    val nutrientName: String?,
-    val nutrientNumber: String?,
-    val unitName: String?,
-    val value: Double?
-)
-
-data class AbridgedFoodItem(
-    val fdcId: Int,
-    val description: String,
-    val dataType: String?,
-    val publishedDate: String?,
-    val brandOwner: String?,
-    val foodNutrients: List<AbridgedFoodNutrient>?
-)
-
-data class AbridgedFoodNutrient(
-    val nutrientId: Int?,
-    val name: String?,
-    val unitName: String?,
-    val value: Double?
-)
-
-data class FoodSearchResult(
-    val totalHits: Int,
-    val currentPage: Int,
-    val totalPages: Int,
-    val foods: List<SearchResultFood>
-)
-
-data class SearchResultFood(
-    val fdcId: Int,
-    val description: String,
-    val dataType: String?,
-    val publishedDate: String?,
-    val brandOwner: String?,
-    val score: Double?,
-    val foodNutrients: List<AbridgedFoodNutrient>?
-)
-
-private interface FdcApiService {
+private interface FdcApiService { //Retrofit blueprint
     @GET("food/{fdcId}")
     suspend fun getFood(
         @Path("fdcId") fdcId: Int,
         @Query("api_key") apiKey: String,
         @Query("format") format: String?,
         @Query("nutrients") nutrients: List<Int>?
-    ): FoodItem
+    ): FoodItemDetail
 
     @GET("foods")
     suspend fun getFoods(
@@ -74,7 +24,7 @@ private interface FdcApiService {
         @Query("api_key") apiKey: String,
         @Query("format") format: String?,
         @Query("nutrients") nutrients: List<Int>?
-    ): List<FoodItem>
+    ): List<FoodItemDetail>
 
     @GET("foods/list")
     suspend fun listFoods(
@@ -84,7 +34,7 @@ private interface FdcApiService {
         @Query("pageNumber") pageNumber: Int?,
         @Query("sortBy") sortBy: String?,
         @Query("sortOrder") sortOrder: String?
-    ): List<AbridgedFoodItem>
+    ): List<FoodItemDetail>
 
     @GET("foods/search")
     suspend fun searchFoods(
@@ -95,11 +45,14 @@ private interface FdcApiService {
         @Query("pageNumber") pageNumber: Int?,
         @Query("sortBy") sortBy: String?,
         @Query("sortOrder") sortOrder: String?,
-        @Query("brandOwner") brandOwner: String?
+        @Query("brandOwner") brandOwner: String?,
+        @Query("tradeChannel") tradeChannel: List<String>?,
+        @Query("startDate") startDate: String?,
+        @Query("endDate") endDate: String?
     ): FoodSearchResult
 }
 
-class FtcFoodAPI(private val apiKey: String = BuildConfig.FDC_API_KEY) {
+class FtcFoodAPI(private val apiKey: String = BuildConfig.FDC_API_KEY) { //Wrapper around Retrofit
 
     private val service: FdcApiService by lazy {
         Retrofit.Builder()
@@ -120,13 +73,14 @@ class FtcFoodAPI(private val apiKey: String = BuildConfig.FDC_API_KEY) {
         fdcId: Int,
         format: String? = null,
         nutrients: List<Int>? = null
-    ): FoodItem = service.getFood(fdcId, apiKey, format, nutrients)
+    ): FoodItemDetail = service.getFood(fdcId, apiKey, format, nutrients)
 
     suspend fun getFoods(
         fdcIds: List<Int>,
         format: String? = null,
         nutrients: List<Int>? = null
-    ): List<FoodItem> = service.getFoods(fdcIds, apiKey, format, nutrients)
+    ): List<FoodItemDetail> = service.getFoods(fdcIds, apiKey, format, nutrients)
+
 
     suspend fun listFoods(
         dataType: List<String>? = null,
@@ -134,7 +88,7 @@ class FtcFoodAPI(private val apiKey: String = BuildConfig.FDC_API_KEY) {
         pageNumber: Int? = null,
         sortBy: String? = null,
         sortOrder: String? = null
-    ): List<AbridgedFoodItem> =
+    ): List<FoodItemDetail> =
         service.listFoods(apiKey, dataType, pageSize, pageNumber, sortBy, sortOrder)
 
     suspend fun searchFoods(
@@ -144,7 +98,13 @@ class FtcFoodAPI(private val apiKey: String = BuildConfig.FDC_API_KEY) {
         pageNumber: Int? = null,
         sortBy: String? = null,
         sortOrder: String? = null,
-        brandOwner: String? = null
+        brandOwner: String? = null,
+        tradeChannel: List<String>? = null,
+        startDate: String? = null,
+        endDate: String? = null
     ): FoodSearchResult =
-        service.searchFoods(apiKey, query, dataType, pageSize, pageNumber, sortBy, sortOrder, brandOwner)
+        service.searchFoods(
+            apiKey, query, dataType, pageSize, pageNumber,
+            sortBy, sortOrder, brandOwner, tradeChannel, startDate, endDate
+        )
 }

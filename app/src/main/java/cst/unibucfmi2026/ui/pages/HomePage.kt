@@ -5,9 +5,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,7 +28,7 @@ import cst.unibucfmi2026.utils.AppLogo
 import cst.unibucfmi2026.utils.Background
 
 @Composable
-fun HomePage(onLogout: () -> Unit = {}) {
+fun HomePage(onLogout: () -> Unit = {}, onTestFoodApi: () -> Unit = {}) {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -42,10 +48,15 @@ fun HomePage(onLogout: () -> Unit = {}) {
                 color = MaterialTheme.colorScheme.primary
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = onLogout) {
+            Button(onClick = onTestFoodApi, modifier = Modifier.fillMaxWidth()) {
+                Icon(Icons.Default.Search, contentDescription = null, modifier = Modifier.size(18.dp))
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(stringResource(R.string.search_food))
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Button(onClick = onLogout, modifier = Modifier.fillMaxWidth()) {
                 Text(stringResource(R.string.logout))
             }
-
         }
     }
 }

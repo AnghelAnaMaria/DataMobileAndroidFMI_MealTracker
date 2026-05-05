@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import cst.unibucfmi2026.MainActivity
+import cst.unibucfmi2026.ui.pages.FoodTestPage
 import cst.unibucfmi2026.ui.pages.HomePage
 import cst.unibucfmi2026.ui.pages.LoginPage
 import cst.unibucfmi2026.ui.pages.RegisterPage
@@ -53,15 +54,20 @@ fun AuthNavigation(authViewModel: AuthViewModel = viewModel()) {
             )
         }
         composable("homepage") {
-            HomePage(onLogout = {
-                authViewModel.logout()
-                (context as? Activity)?.apply{
-                    val intent = Intent(this, MainActivity::class.java)
-                    this.startActivity(intent)
-                    this.finish()
-                }
-            }
+            HomePage(
+                onLogout = {
+                    authViewModel.logout()
+                    (context as? Activity)?.apply {
+                        val intent = Intent(this, MainActivity::class.java)
+                        this.startActivity(intent)
+                        this.finish()
+                    }
+                },
+                onTestFoodApi = { navController.navigate("food_test") }
             )
+        }
+        composable("food_test") {
+            FoodTestPage()
         }
     }
 }

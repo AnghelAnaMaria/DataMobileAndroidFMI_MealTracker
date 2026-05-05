@@ -13,4 +13,5 @@
     <string name="invalid_email" translatable="false">Email is invalid</string>
     <string name="invalid_password" translatable="false">Password must be longer than 6 characters and must contain at least one number and one special character.</string>
     <string name="logout" translatable="false">Logout</string>
+    <string name="search_food" translatable="false">Search food</string>
 </resources>
