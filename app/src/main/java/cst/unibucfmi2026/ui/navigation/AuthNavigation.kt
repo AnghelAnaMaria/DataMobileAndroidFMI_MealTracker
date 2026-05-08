@@ -3,7 +3,6 @@ package cst.unibucfmi2026.ui.navigation
 import android.app.Activity
 import android.content.Intent
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
@@ -12,15 +11,19 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import cst.unibucfmi2026.MainActivity
-import cst.unibucfmi2026.ui.pages.FoodTestPage
+import cst.unibucfmi2026.ui.pages.MyFoodPage
+import cst.unibucfmi2026.ui.pages.SearchFoodPage
 import cst.unibucfmi2026.ui.pages.HomePage
 import cst.unibucfmi2026.ui.pages.LoginPage
 import cst.unibucfmi2026.ui.pages.RegisterPage
 import cst.unibucfmi2026.viewmodel.AuthViewModel
+import cst.unibucfmi2026.viewmodel.FoodViewModel
 
 
 @Composable
-fun AuthNavigation(authViewModel: AuthViewModel = viewModel()) {
+fun AuthNavigation(
+    authViewModel: AuthViewModel = viewModel(),
+) {
     val navController = rememberNavController()
     val authState by authViewModel.authState.collectAsState()
     val navigateToHome: () -> Unit = { navController.navigate("homepage") }
@@ -31,22 +34,18 @@ fun AuthNavigation(authViewModel: AuthViewModel = viewModel()) {
     }
 
     NavHost(navController, startDestination = startDestination) {
-        composable("login") { //ruta login
-            LoginPage( //login page
-                onRegisterClick = { //callbacks
-                    navController.navigate("register")
-                },
+        composable("login") {
+            LoginPage(
+                onRegisterClick = { navController.navigate("register") },
                 onLoginClick = authViewModel::login,
                 onLoginSuccess = navigateToHome,
                 isLoading = authState.isLoading,
                 errorMessage = authState.errorMessage
             )
         }
-        composable("register") { //ruta register
-            RegisterPage( //register screen
-                onLoginClick = { //callbacks
-                    navController.popBackStack()
-                },
+        composable("register") {
+            RegisterPage(
+                onLoginClick = { navController.popBackStack() },
                 onRegisterClick = authViewModel::register,
                 onRegisterSuccess = navigateToHome,
                 isLoading = authState.isLoading,
@@ -58,16 +57,24 @@ fun AuthNavigation(authViewModel: AuthViewModel = viewModel()) {
                 onLogout = {
                     authViewModel.logout()
                     (context as? Activity)?.apply {
-                        val intent = Intent(this, MainActivity::class.java)
-                        this.startActivity(intent)
-                        this.finish()
+                        startActivity(Intent(this, MainActivity::class.java))
+                        finish()
                     }
                 },
-                onTestFoodApi = { navController.navigate("food_test") }
+                onTestFoodApi = { navController.navigate("search_food") },
+                onMyFoods = {navController.navigate("my_foods")}
             )
         }
-        composable("food_test") {
-            FoodTestPage()
+        composable("search_food") {
+            SearchFoodPage(
+                onNavigateToMyFoods = { navController.navigate("my_foods") },
+                onGoHome = navigateToHome
+            )
+        }
+        composable("my_foods") {
+            MyFoodPage(
+                onGoHome = navigateToHome
+            )
         }
     }
 }

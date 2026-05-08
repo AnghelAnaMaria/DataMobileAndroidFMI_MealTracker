@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     id("com.google.gms.google-services")
+    alias(libs.plugins.ksp)
 }
 
 val localProperties = Properties().apply {
@@ -24,7 +25,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "FDC_API_KEY", "\"${localProperties.getProperty("FDC_API_KEY", "DEMO_KEY")}\"")
+        buildConfigField(
+            "String",
+            "FDC_API_KEY",
+            "\"${localProperties.getProperty("FDC_API_KEY", "DEMO_KEY")}\""
+        )
     }
 
     buildTypes {
@@ -70,6 +75,11 @@ android {
 
 
 dependencies {
+    // room DB
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.activity.ktx)

@@ -28,7 +28,11 @@ import cst.unibucfmi2026.utils.AppLogo
 import cst.unibucfmi2026.utils.Background
 
 @Composable
-fun HomePage(onLogout: () -> Unit = {}, onTestFoodApi: () -> Unit = {}) {
+fun HomePage(
+    onLogout: () -> Unit = {},
+    onTestFoodApi: () -> Unit = {},
+    onMyFoods: () -> Unit ={}
+) {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -52,6 +56,10 @@ fun HomePage(onLogout: () -> Unit = {}, onTestFoodApi: () -> Unit = {}) {
                 Icon(Icons.Default.Search, contentDescription = null, modifier = Modifier.size(18.dp))
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(stringResource(R.string.search_food))
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Button(onClick = onMyFoods, modifier = Modifier.fillMaxWidth()) {
+                Text(stringResource(R.string.my_foods))
             }
             Spacer(modifier = Modifier.height(8.dp))
             Button(onClick = onLogout, modifier = Modifier.fillMaxWidth()) {

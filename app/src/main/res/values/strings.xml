@@ -14,4 +14,12 @@
     <string name="invalid_password" translatable="false">Password must be longer than 6 characters and must contain at least one number and one special character.</string>
     <string name="logout" translatable="false">Logout</string>
     <string name="search_food" translatable="false">Search food</string>
+    <string name="food_name" translatable="false">Food name</string>
+    <string name="add_food" translatable="false">Add to my food</string>
+    <string name="my_foods" translatable="false">My Foods</string>
+    <string name="no_foods" translatable="false">No foods added yet.</string>
+    <string name="home" translatable="false">Home</string>
+
+
+
 </resources>

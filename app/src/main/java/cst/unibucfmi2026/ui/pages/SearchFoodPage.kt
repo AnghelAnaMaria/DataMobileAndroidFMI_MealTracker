@@ -15,6 +15,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -30,20 +31,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import cst.unibucfmi2026.R
 import androidx.lifecycle.viewmodel.compose.viewModel
 import cst.unibucfmi2026.ui.theme.UnibucFMI2026Theme
 import cst.unibucfmi2026.utils.AbridgedFoodNutrient
 import cst.unibucfmi2026.utils.Background
 import cst.unibucfmi2026.utils.SearchResultFood
-import cst.unibucfmi2026.viewmodel.FoodTestViewModel
+import cst.unibucfmi2026.viewmodel.FoodViewModel
 
 @Composable
-fun FoodTestPage(viewModel: FoodTestViewModel = viewModel()) {
+fun SearchFoodPage(
+    viewModel: FoodViewModel = viewModel(),
+    onNavigateToMyFoods: () -> Unit ={},
+    onGoHome: () -> Unit ={}
+) {
     val state by viewModel.searchState.collectAsState()
     var query by remember { mutableStateOf("") }
 
@@ -57,7 +64,7 @@ fun FoodTestPage(viewModel: FoodTestViewModel = viewModel()) {
             item {
                 Spacer(modifier = Modifier.height(32.dp))
                 Text(
-                    text = "Search Food",
+                    text = stringResource(R.string.search_food),
                     style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -65,7 +72,7 @@ fun FoodTestPage(viewModel: FoodTestViewModel = viewModel()) {
                 OutlinedTextField(
                     value = query,
                     onValueChange = { query = it },
-                    label = { Text("Food name") },
+                    label = { Text(stringResource(R.string.food_name)) },
                     trailingIcon = {
                         IconButton(onClick = { viewModel.search(query) }) {
                             Icon(Icons.Default.Search, contentDescription = "Search")
@@ -82,20 +89,54 @@ fun FoodTestPage(viewModel: FoodTestViewModel = viewModel()) {
                 Spacer(modifier = Modifier.height(16.dp))
                 if (state.isLoading) {
                     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator(modifier = Modifier.size(28.dp), strokeWidth = 2.dp)
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(28.dp),
+                            strokeWidth = 2.dp
+                        )
                     }
                 }
                 state.errorMessage?.let {
-                    Text(it, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
+                    Text(
+                        it,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
             }
 
             items(state.results) { food ->
-                FoodResultItem(food)
-                HorizontalDivider()
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    FoodResultItem(food)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Button(
+                        onClick = {
+                            viewModel.addFood(         // logica in viewModel
+                                food = food,
+                                onSuccess = onNavigateToMyFoods
+                            )
+                        }
+                    ) {
+                        Text(stringResource(R.string.add_food))
+                    }
+
+                    HorizontalDivider(
+                        modifier = Modifier.padding(top = 12.dp)
+                    )
+                }
             }
 
-            item { Spacer(modifier = Modifier.height(24.dp)) }
+            item {
+                Button(
+                    onClick = onGoHome,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    Text(stringResource(R.string.home))
+                }
+            }
         }
     }
 }
@@ -110,7 +151,11 @@ private fun FoodResultItem(food: SearchResultFood) {
     ) {
         Text(food.description, fontWeight = FontWeight.SemiBold)
         food.brandOwner?.let {
-            Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.secondary)
+            Text(
+                it,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.secondary
+            )
         }
         val summary = nutrientSummary(food.foodNutrients)
         if (summary.isNotEmpty()) {
@@ -132,8 +177,8 @@ private fun nutrientSummary(nutrients: List<AbridgedFoodNutrient>?): String {
 
 @Preview(showBackground = true)
 @Composable
-fun FoodTestPagePreview() {
+fun SearchFoodPagePreview() {
     UnibucFMI2026Theme {
-        FoodTestPage()
+        SearchFoodPage()
     }
 }

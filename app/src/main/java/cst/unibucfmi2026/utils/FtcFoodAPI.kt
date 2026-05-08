@@ -9,7 +9,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-private interface FdcApiService { //Retrofit blueprint
+private interface FdcApiService { //Retrofit API interface
     @GET("food/{fdcId}")
     suspend fun getFood(
         @Path("fdcId") fdcId: Int,
@@ -55,7 +55,7 @@ private interface FdcApiService { //Retrofit blueprint
 class FtcFoodAPI(private val apiKey: String = BuildConfig.FDC_API_KEY) { //Wrapper around Retrofit
 
     private val service: FdcApiService by lazy {
-        Retrofit.Builder()
+        Retrofit.Builder() //Retrofit for http; implements interface above
             .baseUrl("https://api.nal.usda.gov/fdc/v1/")
             .client(
                 OkHttpClient.Builder()

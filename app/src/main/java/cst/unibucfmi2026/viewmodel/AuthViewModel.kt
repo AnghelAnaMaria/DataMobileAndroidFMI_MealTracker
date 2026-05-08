@@ -8,11 +8,10 @@ import kotlinx.coroutines.flow.asStateFlow
 data class AuthState(
     val isLoading: Boolean = false,
     val errorMessage: String? = null
-) //Lombook like
-
+)
 class AuthViewModel : ViewModel() {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance() //auth
-    private val _authState = MutableStateFlow(AuthState()) //parametru de stare
+    private val _authState = MutableStateFlow(AuthState())
     val authState = _authState.asStateFlow()
 
     val isLoggedIn: Boolean
