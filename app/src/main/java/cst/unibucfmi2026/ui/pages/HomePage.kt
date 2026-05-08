@@ -31,7 +31,8 @@ import cst.unibucfmi2026.utils.Background
 fun HomePage(
     onLogout: () -> Unit = {},
     onTestFoodApi: () -> Unit = {},
-    onMyFoods: () -> Unit ={}
+    onMyFoods: () -> Unit = {},
+    onDeveloperSettings: () -> Unit = {}
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
@@ -60,6 +61,10 @@ fun HomePage(
             Spacer(modifier = Modifier.height(8.dp))
             Button(onClick = onMyFoods, modifier = Modifier.fillMaxWidth()) {
                 Text(stringResource(R.string.my_foods))
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Button(onClick = onDeveloperSettings, modifier = Modifier.fillMaxWidth()) {
+                Text(stringResource(R.string.developer_settings))
             }
             Spacer(modifier = Modifier.height(8.dp))
             Button(onClick = onLogout, modifier = Modifier.fillMaxWidth()) {

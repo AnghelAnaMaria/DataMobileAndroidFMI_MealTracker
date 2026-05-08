@@ -19,6 +19,7 @@
     <string name="my_foods" translatable="false">My Foods</string>
     <string name="no_foods" translatable="false">No foods added yet.</string>
     <string name="home" translatable="false">Home</string>
+    <string name="developer_settings" translatable="false">Developer Settings</string>
 
 
 

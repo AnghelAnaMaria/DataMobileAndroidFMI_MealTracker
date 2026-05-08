@@ -8,6 +8,7 @@ import cst.unibucfmi2026.data.AppDatabase
 import cst.unibucfmi2026.data.entities.FoodEntity
 import cst.unibucfmi2026.data.entities.UserEntity
 import cst.unibucfmi2026.data.entities.UserFoodCrossRef
+import cst.unibucfmi2026.utils.DeveloperSettingsManager
 import cst.unibucfmi2026.utils.FtcFoodAPI
 import cst.unibucfmi2026.utils.SearchResultFood
 import cst.unibucfmi2026.utils.toEntity
@@ -31,9 +32,11 @@ class FoodViewModel(application: Application) : AndroidViewModel(application) {
     private val userDao = db.userDao()
     private val foodDao = db.foodDao()
     private val crossRefDao = db.userFoodCrossRefDao()
-    private val api = FtcFoodAPI()
+    private val devSettings = DeveloperSettingsManager.getInstance(application)
     private val _searchState = MutableStateFlow(FoodSearchState())
     val searchState = _searchState.asStateFlow()
+
+    private fun getApi() = FtcFoodAPI(apiKey = devSettings.fdcApiKey)
 
     private fun currentUid(): String? = FirebaseAuth.getInstance().currentUser?.uid
 
@@ -49,7 +52,7 @@ class FoodViewModel(application: Application) : AndroidViewModel(application) {
         _searchState.value = FoodSearchState(isLoading = true)
         viewModelScope.launch {
             try {
-                val result = api.searchFoods(query, pageSize = 10)
+                val result = getApi().searchFoods(query, pageSize = 10)
                 _searchState.value = FoodSearchState(results = result.foods)
             } catch (e: Exception) {
                 _searchState.value = FoodSearchState(errorMessage = e.message)
