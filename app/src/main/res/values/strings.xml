@@ -19,6 +19,17 @@
     <string name="my_foods" translatable="false">My Foods</string>
     <string name="no_foods" translatable="false">No foods added yet.</string>
     <string name="home" translatable="false">Home</string>
+    <string name="details" translatable="false">Details</string>
+    <string name="food_details" translatable="false">Food Details</string>
+    <string name="close" translatable="false">Close</string>
+    <string name="serving" translatable="false">Serving</string>
+    <string name="ingredients" translatable="false">Ingredients</string>
+    <string name="nutrients" translatable="false">Nutrients</string>
+    <string name="sort_by" translatable="false">Sort by:</string>
+    <string name="remove_food" translatable="false">Remove food</string>
+    <string name="remove_food_confirm" translatable="false">Remove \"%s\" from your list?</string>
+    <string name="remove" translatable="false">Remove</string>
+    <string name="cancel" translatable="false">Cancel</string>
 
 
 
