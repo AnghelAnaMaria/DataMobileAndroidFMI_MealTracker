@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import cst.unibucfmi2026.data.AppDatabase
+import cst.unibucfmi2026.data.UserPreferencesRepository
 import cst.unibucfmi2026.data.entities.FoodEntity
 import cst.unibucfmi2026.data.entities.UserEntity
 import cst.unibucfmi2026.data.entities.UserFoodCrossRef
@@ -56,13 +57,14 @@ class FoodViewModel(application: Application) : AndroidViewModel(application) {
     private val foodDao = db.foodDao()
     private val crossRefDao = db.userFoodCrossRefDao()
     private val api = FtcFoodAPI()
+    private val prefsRepo = UserPreferencesRepository(application)
     private val _searchState = MutableStateFlow(FoodSearchState())
     val searchState = _searchState.asStateFlow()
 
     private val _foodDetailState = MutableStateFlow(FoodDetailState())
     val foodDetailState = _foodDetailState.asStateFlow()
 
-    private val _sortConfig = MutableStateFlow(SortConfig())
+    private val _sortConfig = MutableStateFlow(prefsRepo.getSortConfig())
     val sortConfig = _sortConfig.asStateFlow()
 
     private val _currentPage = MutableStateFlow(0)
@@ -104,6 +106,7 @@ class FoodViewModel(application: Application) : AndroidViewModel(application) {
     fun setSortConfig(config: SortConfig) {
         _sortConfig.value = config
         _currentPage.value = 0
+        prefsRepo.saveSortConfig(config)
     }
 
     fun nextPage() { _currentPage.value++ }
