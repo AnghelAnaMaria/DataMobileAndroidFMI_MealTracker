@@ -1,5 +1,7 @@
 package cst.unibucfmi2026.utils
 
+import com.google.gson.annotations.SerializedName
+
 data class Nutrient(
     val name: String?,
     val unitName: String?
@@ -12,9 +14,9 @@ data class FoodNutrient(
 )
 
 data class AbridgedFoodNutrient(
-    val number: Int?,
-    val name: String?,
-    val amount: Float?,
+    @SerializedName("nutrientId") val number: Int?,
+    @SerializedName("nutrientName") val name: String?,
+    @SerializedName("value") val amount: Float?,
     val unitName: String?
 )
 
