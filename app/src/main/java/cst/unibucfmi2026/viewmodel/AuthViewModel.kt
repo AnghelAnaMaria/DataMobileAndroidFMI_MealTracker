@@ -45,4 +45,10 @@ class AuthViewModel : ViewModel() {
     fun logout(){
         auth.signOut()
     }
+
+    fun forgotPassword(email: String, onSuccess: () -> Unit, onError: (String) -> Unit) {
+        auth.sendPasswordResetEmail(email)
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { onError(it.message ?: "Error") }
+    }
 }

@@ -39,6 +39,7 @@ fun AuthNavigation(
                 onRegisterClick = { navController.navigate("register") },
                 onLoginClick = authViewModel::login,
                 onLoginSuccess = navigateToHome,
+                onForgotPassword = authViewModel::forgotPassword,
                 isLoading = authState.isLoading,
                 errorMessage = authState.errorMessage
             )
