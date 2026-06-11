@@ -3,6 +3,7 @@ package cst.unibucfmi2026.ui.pages
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,6 +22,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -52,7 +54,15 @@ fun SearchFoodPage(
     onGoHome: () -> Unit ={}
 ) {
     val state by viewModel.searchState.collectAsState()
+    val detailState by viewModel.foodDetailState.collectAsState()
     var query by remember { mutableStateOf("") }
+
+    if (detailState.isLoading || detailState.detail != null || detailState.errorMessage != null) {
+        FoodDetailDialog(
+            state = detailState,
+            onDismiss = { viewModel.clearFoodDetail() }
+        )
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Background()
@@ -110,15 +120,24 @@ fun SearchFoodPage(
                 ) {
                     FoodResultItem(food)
                     Spacer(modifier = Modifier.height(8.dp))
-                    Button(
-                        onClick = {
-                            viewModel.addFood(         // logica in viewModel
-                                food = food,
-                                onSuccess = onNavigateToMyFoods
-                            )
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                        Button(
+                            onClick = {
+                                viewModel.addFood(
+                                    food = food,
+                                    onSuccess = onNavigateToMyFoods
+                                )
+                            }
+                        ) {
+                            Text(stringResource(R.string.add_food))
                         }
-                    ) {
-                        Text(stringResource(R.string.add_food))
+                        OutlinedButton(
+                            onClick = { viewModel.fetchFoodDetail(food.fdcId) }
+                        ) {
+                            Text(stringResource(R.string.details))
+                        }
                     }
 
                     HorizontalDivider(

@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Password
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -53,6 +54,7 @@ fun LoginPage(
     onRegisterClick: () -> Unit = {},
     onLoginClick: (email: String, password: String, onSuccess: () -> Unit) -> Unit = { _, _, _ -> },
     onLoginSuccess: () -> Unit = {},
+    onForgotPassword: (email: String, onSuccess: () -> Unit, onError: (String) -> Unit) -> Unit = { _, _, _ -> },
     isLoading: Boolean = false,
     errorMessage: String? = null
 
@@ -62,8 +64,17 @@ fun LoginPage(
     var isPasswordVisible by remember { mutableStateOf(false) }
     var emailError by remember { mutableStateOf<String?>(null) }
     var passwordError by remember { mutableStateOf<String?>(null) }
+    var showForgotDialog by remember { mutableStateOf(false) }
     val invalidEmailMessage = stringResource(R.string.invalid_email)
     val invalidPasswordMessage = stringResource(R.string.invalid_password)
+
+    if (showForgotDialog) {
+        ForgotPasswordDialog(
+            initialEmail = email,
+            onForgotPassword = onForgotPassword,
+            onDismiss = { showForgotDialog = false }
+        )
+    }
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -206,13 +217,93 @@ fun LoginPage(
                 )
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            TextButton(onClick = { showForgotDialog = true }) {
+                Text(stringResource(R.string.forgot_password))
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
 
             TextButton(onClick = onRegisterClick) { Text(stringResource(R.string.goto_register)) }
 
         }
     }
 
+}
+
+@Composable
+private fun ForgotPasswordDialog(
+    initialEmail: String,
+    onForgotPassword: (email: String, onSuccess: () -> Unit, onError: (String) -> Unit) -> Unit,
+    onDismiss: () -> Unit
+) {
+    var resetEmail by remember { mutableStateOf(initialEmail) }
+    var emailError by remember { mutableStateOf<String?>(null) }
+    var isLoading by remember { mutableStateOf(false) }
+    var successMessage by remember { mutableStateOf<String?>(null) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+    val invalidEmailMessage = stringResource(R.string.invalid_email)
+
+    AlertDialog(
+        onDismissRequest = { if (!isLoading) onDismiss() },
+        title = { Text(stringResource(R.string.forgot_password_title)) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(
+                    stringResource(R.string.forgot_password_desc),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                OutlinedTextField(
+                    value = resetEmail,
+                    onValueChange = { resetEmail = it; emailError = null; errorMessage = null },
+                    label = { Text(stringResource(R.string.email)) },
+                    leadingIcon = { Icon(Icons.Default.Email, contentDescription = null) },
+                    singleLine = true,
+                    isError = emailError != null,
+                    supportingText = emailError?.let { { Text(it) } },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = !isLoading
+                )
+                successMessage?.let {
+                    Text(it, color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.bodySmall)
+                }
+                errorMessage?.let {
+                    Text(it, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
+                }
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = {
+                    if (!resetEmail.isValidEmail()) {
+                        emailError = invalidEmailMessage
+                        return@Button
+                    }
+                    isLoading = true
+                    onForgotPassword(
+                        resetEmail,
+                        {
+                            isLoading = false
+                            successMessage = "Reset email sent! Check your inbox."
+                        },
+                        { error ->
+                            isLoading = false
+                            errorMessage = error
+                        }
+                    )
+                },
+                enabled = !isLoading && successMessage == null
+            ) {
+                if (isLoading) CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+                else Text(stringResource(R.string.send_reset_email))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss, enabled = !isLoading) {
+                Text(stringResource(R.string.cancel))
+            }
+        }
+    )
 }
 
 @Preview(showBackground = true)
