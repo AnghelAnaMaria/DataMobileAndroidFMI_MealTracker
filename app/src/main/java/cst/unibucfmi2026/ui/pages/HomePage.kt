@@ -10,13 +10,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -77,10 +80,6 @@ fun HomePage(
                 Text(stringResource(R.string.my_foods))
             }
             Spacer(modifier = Modifier.height(8.dp))
-            Button(onClick = onDeveloperSettings, modifier = Modifier.fillMaxWidth()) {
-                Text(stringResource(R.string.developer_settings))
-            }
-            Spacer(modifier = Modifier.height(8.dp))
             Button(onClick = onLogout, modifier = Modifier.fillMaxWidth()) {
                 Text(stringResource(R.string.logout))
             }
@@ -104,6 +103,19 @@ fun HomePage(
                 }
                 Switch(checked = isDarkTheme, onCheckedChange = { themeViewModel.toggle() })
             }
+        }
+        IconButton(
+            onClick = onDeveloperSettings,
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .statusBarsPadding()
+                .padding(16.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Settings,
+                contentDescription = stringResource(R.string.developer_settings),
+                tint = MaterialTheme.colorScheme.primary
+            )
         }
     }
 }

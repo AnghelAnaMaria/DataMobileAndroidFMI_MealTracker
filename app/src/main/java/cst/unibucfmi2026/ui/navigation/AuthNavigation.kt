@@ -42,7 +42,8 @@ fun AuthNavigation(
                 onLoginSuccess = navigateToHome,
                 onForgotPassword = authViewModel::forgotPassword,
                 isLoading = authState.isLoading,
-                errorMessage = authState.errorMessage
+                errorMessage = authState.errorMessage,
+                onDeveloperSettings = { navController.navigate("developer_settings") }
             )
         }
         composable("register") {
@@ -51,7 +52,8 @@ fun AuthNavigation(
                 onRegisterClick = authViewModel::register,
                 onRegisterSuccess = navigateToHome,
                 isLoading = authState.isLoading,
-                errorMessage = authState.errorMessage
+                errorMessage = authState.errorMessage,
+                onDeveloperSettings = { navController.navigate("developer_settings") }
             )
         }
         composable("homepage") {
