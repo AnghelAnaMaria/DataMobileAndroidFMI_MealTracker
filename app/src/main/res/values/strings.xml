@@ -36,7 +36,6 @@
     <string name="forgot_password_desc" translatable="false">Enter your email and we\'ll send you a reset link.</string>
     <string name="send_reset_email" translatable="false">Send</string>
     <string name="reset_email_sent" translatable="false">Reset email sent! Check your inbox.</string>
-
     <string name="back" translatable="false">Back</string>
     <string name="fdc_api_config" translatable="false">FDC API Configuration</string>
     <string name="fdc_api_key" translatable="false">FDC API Key</string>
