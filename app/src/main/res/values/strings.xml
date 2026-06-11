@@ -37,6 +37,13 @@
     <string name="send_reset_email" translatable="false">Send</string>
     <string name="reset_email_sent" translatable="false">Reset email sent! Check your inbox.</string>
 
+    <string name="back" translatable="false">Back</string>
+    <string name="fdc_api_config" translatable="false">FDC API Configuration</string>
+    <string name="fdc_api_key" translatable="false">FDC API Key</string>
+    <string name="enter_api_key" translatable="false">Enter API Key</string>
+    <string name="save" translatable="false">Save</string>
+    <string name="reset_to_default" translatable="false">Reset to Default</string>
+
 
 
 </resources>

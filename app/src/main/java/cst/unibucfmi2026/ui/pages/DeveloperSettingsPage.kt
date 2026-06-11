@@ -8,7 +8,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import cst.unibucfmi2026.R
 import cst.unibucfmi2026.utils.DeveloperSettingsManager
 
 @Composable
@@ -38,11 +41,11 @@ fun DeveloperSettingsPage(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                     Spacer(modifier = Modifier.width(12.dp))
                     Text(
-                        text = "Developer Settings",
+                        text = stringResource(R.string.developer_settings),
                         style = MaterialTheme.typography.titleLarge
                     )
                 }
@@ -55,16 +58,18 @@ fun DeveloperSettingsPage(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
-                    text = "FDC API Configuration",
+                    text = stringResource(R.string.fdc_api_config),
                     style = MaterialTheme.typography.titleMedium
                 )
                 
                 OutlinedTextField(
                     value = apiKey,
                     onValueChange = { apiKey = it },
-                    label = { Text("FDC API Key") },
+                    label = { Text(stringResource(R.string.fdc_api_key)) },
                     modifier = Modifier.fillMaxWidth(),
-                    placeholder = { Text("Enter API Key") }
+                    placeholder = { Text(stringResource(R.string.enter_api_key)) },
+                    singleLine = true,
+                    visualTransformation = PasswordVisualTransformation()
                 )
                 
                 Row(
@@ -77,7 +82,7 @@ fun DeveloperSettingsPage(
                         },
                         modifier = Modifier.weight(1f)
                     ) {
-                        Text("Save")
+                        Text(stringResource(R.string.save))
                     }
                     
                     OutlinedButton(
@@ -87,7 +92,7 @@ fun DeveloperSettingsPage(
                         },
                         modifier = Modifier.weight(1f)
                     ) {
-                        Text("Reset to Default")
+                        Text(stringResource(R.string.reset_to_default))
                     }
                 }
             }
