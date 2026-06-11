@@ -39,8 +39,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import cst.unibucfmi2026.R
 import androidx.lifecycle.viewmodel.compose.viewModel
+import cst.unibucfmi2026.R
 import cst.unibucfmi2026.ui.theme.UnibucFMI2026Theme
 import cst.unibucfmi2026.utils.AbridgedFoodNutrient
 import cst.unibucfmi2026.utils.Background

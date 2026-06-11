@@ -12,13 +12,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import cst.unibucfmi2026.MainActivity
 import cst.unibucfmi2026.ui.pages.DeveloperSettingsPage
-import cst.unibucfmi2026.ui.pages.MyFoodPage
-import cst.unibucfmi2026.ui.pages.SearchFoodPage
 import cst.unibucfmi2026.ui.pages.HomePage
 import cst.unibucfmi2026.ui.pages.LoginPage
+import cst.unibucfmi2026.ui.pages.MyFoodPage
 import cst.unibucfmi2026.ui.pages.RegisterPage
+import cst.unibucfmi2026.ui.pages.SearchFoodPage
 import cst.unibucfmi2026.viewmodel.AuthViewModel
-import cst.unibucfmi2026.viewmodel.FoodViewModel
 
 
 @Composable

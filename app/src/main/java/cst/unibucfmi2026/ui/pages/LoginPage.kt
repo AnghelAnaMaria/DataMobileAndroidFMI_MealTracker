@@ -1,6 +1,5 @@
 package cst.unibucfmi2026.ui.pages
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,9 +33,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -49,7 +45,6 @@ import cst.unibucfmi2026.ui.theme.UnibucFMI2026Theme
 import cst.unibucfmi2026.utils.AppLogo
 import cst.unibucfmi2026.utils.Background
 import cst.unibucfmi2026.utils.isValidEmail
-import cst.unibucfmi2026.utils.isValidPassword
 
 @Composable
 fun LoginPage(
@@ -68,7 +63,6 @@ fun LoginPage(
     var passwordError by remember { mutableStateOf<String?>(null) }
     var showForgotDialog by remember { mutableStateOf(false) }
     val invalidEmailMessage = stringResource(R.string.invalid_email)
-    val invalidPasswordMessage = stringResource(R.string.invalid_password)
 
     if (showForgotDialog) {
         ForgotPasswordDialog(
@@ -189,11 +183,6 @@ fun LoginPage(
                         emailError = invalidEmailMessage
                         isValid = false
                     }
-
-//                    if (!password.isValidPassword()) {
-//                        passwordError = invalidPasswordMessage
-//                        isValid = false
-//                    }
 
                     if (isValid) onLoginClick(email, password, onLoginSuccess)
                 },
