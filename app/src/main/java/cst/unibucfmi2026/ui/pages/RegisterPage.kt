@@ -15,6 +15,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Password
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -55,7 +56,8 @@ fun RegisterPage(
     onRegisterClick: (email: String, password: String, onSuccess: () -> Unit) -> Unit = { _, _, _ -> },
     isLoading: Boolean = false,
     errorMessage: String? = null,
-    onRegisterSuccess: () -> Unit = {}
+    onRegisterSuccess: () -> Unit = {},
+    onDeveloperSettings: () -> Unit = {}
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -69,6 +71,18 @@ fun RegisterPage(
         modifier = Modifier.fillMaxSize()
     ) {
         Background()
+        IconButton(
+            onClick = onDeveloperSettings,
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(16.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Settings,
+                contentDescription = stringResource(R.string.developer_settings),
+                tint = MaterialTheme.colorScheme.primary
+            )
+        }
         Column(
             modifier = Modifier
                 .fillMaxSize()

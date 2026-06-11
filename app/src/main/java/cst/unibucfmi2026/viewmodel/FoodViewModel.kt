@@ -9,6 +9,7 @@ import cst.unibucfmi2026.data.UserPreferencesRepository
 import cst.unibucfmi2026.data.entities.FoodEntity
 import cst.unibucfmi2026.data.entities.UserEntity
 import cst.unibucfmi2026.data.entities.UserFoodCrossRef
+import cst.unibucfmi2026.utils.DeveloperSettingsManager
 import cst.unibucfmi2026.utils.FoodItemDetail
 import cst.unibucfmi2026.utils.FtcFoodAPI
 import cst.unibucfmi2026.utils.SearchResultFood
@@ -56,8 +57,9 @@ class FoodViewModel(application: Application) : AndroidViewModel(application) {
     private val userDao = db.userDao()
     private val foodDao = db.foodDao()
     private val crossRefDao = db.userFoodCrossRefDao()
-    private val api = FtcFoodAPI()
+    private val devSettings = DeveloperSettingsManager.getInstance(application)
     private val prefsRepo = UserPreferencesRepository(application)
+
     private val _searchState = MutableStateFlow(FoodSearchState())
     val searchState = _searchState.asStateFlow()
 
@@ -69,6 +71,8 @@ class FoodViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _currentPage = MutableStateFlow(0)
     val currentPage = _currentPage.asStateFlow()
+
+    private fun getApi() = FtcFoodAPI(apiKey = devSettings.fdcApiKey)
 
     private fun currentUid(): String? = FirebaseAuth.getInstance().currentUser?.uid
 
@@ -123,7 +127,7 @@ class FoodViewModel(application: Application) : AndroidViewModel(application) {
         _searchState.value = FoodSearchState(isLoading = true)
         viewModelScope.launch {
             try {
-                val result = api.searchFoods(query, pageSize = 10)
+                val result = getApi().searchFoods(query, pageSize = 10)
                 _searchState.value = FoodSearchState(results = result.foods)
             } catch (e: Exception) {
                 _searchState.value = FoodSearchState(errorMessage = e.message)
@@ -135,7 +139,7 @@ class FoodViewModel(application: Application) : AndroidViewModel(application) {
         _foodDetailState.value = FoodDetailState(isLoading = true)
         viewModelScope.launch {
             try {
-                val detail = api.getFood(fdcId)
+                val detail = getApi().getFood(fdcId)
                 _foodDetailState.value = FoodDetailState(detail = detail)
             } catch (e: Exception) {
                 _foodDetailState.value = FoodDetailState(errorMessage = e.message)

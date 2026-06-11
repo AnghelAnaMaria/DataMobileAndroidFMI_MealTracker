@@ -10,10 +10,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Password
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.AlertDialog
@@ -56,8 +58,8 @@ fun LoginPage(
     onLoginSuccess: () -> Unit = {},
     onForgotPassword: (email: String, onSuccess: () -> Unit, onError: (String) -> Unit) -> Unit = { _, _, _ -> },
     isLoading: Boolean = false,
-    errorMessage: String? = null
-
+    errorMessage: String? = null,
+    onDeveloperSettings: () -> Unit = {}
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -225,6 +227,20 @@ fun LoginPage(
 
             TextButton(onClick = onRegisterClick) { Text(stringResource(R.string.goto_register)) }
 
+        }
+
+        IconButton(
+            onClick = onDeveloperSettings,
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .statusBarsPadding()
+                .padding(16.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Settings,
+                contentDescription = stringResource(R.string.developer_settings),
+                tint = MaterialTheme.colorScheme.primary
+            )
         }
     }
 

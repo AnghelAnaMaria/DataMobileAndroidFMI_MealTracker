@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import cst.unibucfmi2026.MainActivity
+import cst.unibucfmi2026.ui.pages.DeveloperSettingsPage
 import cst.unibucfmi2026.ui.pages.MyFoodPage
 import cst.unibucfmi2026.ui.pages.SearchFoodPage
 import cst.unibucfmi2026.ui.pages.HomePage
@@ -41,7 +42,8 @@ fun AuthNavigation(
                 onLoginSuccess = navigateToHome,
                 onForgotPassword = authViewModel::forgotPassword,
                 isLoading = authState.isLoading,
-                errorMessage = authState.errorMessage
+                errorMessage = authState.errorMessage,
+                onDeveloperSettings = { navController.navigate("developer_settings") }
             )
         }
         composable("register") {
@@ -50,7 +52,8 @@ fun AuthNavigation(
                 onRegisterClick = authViewModel::register,
                 onRegisterSuccess = navigateToHome,
                 isLoading = authState.isLoading,
-                errorMessage = authState.errorMessage
+                errorMessage = authState.errorMessage,
+                onDeveloperSettings = { navController.navigate("developer_settings") }
             )
         }
         composable("homepage") {
@@ -63,7 +66,8 @@ fun AuthNavigation(
                     }
                 },
                 onTestFoodApi = { navController.navigate("search_food") },
-                onMyFoods = {navController.navigate("my_foods")}
+                onMyFoods = {navController.navigate("my_foods")},
+                onDeveloperSettings = { navController.navigate("developer_settings") }
             )
         }
         composable("search_food") {
@@ -75,6 +79,11 @@ fun AuthNavigation(
         composable("my_foods") {
             MyFoodPage(
                 onGoHome = navigateToHome
+            )
+        }
+        composable("developer_settings") {
+            DeveloperSettingsPage(
+                onBack = { navController.popBackStack() }
             )
         }
     }
