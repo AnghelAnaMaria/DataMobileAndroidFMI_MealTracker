@@ -18,24 +18,6 @@ private interface FdcApiService { //Retrofit API interface
         @Query("nutrients") nutrients: List<Int>?
     ): FoodItemDetail
 
-    @GET("foods")
-    suspend fun getFoods(
-        @Query("fdcIds") fdcIds: List<Int>,
-        @Query("api_key") apiKey: String,
-        @Query("format") format: String?,
-        @Query("nutrients") nutrients: List<Int>?
-    ): List<FoodItemDetail>
-
-    @GET("foods/list")
-    suspend fun listFoods(
-        @Query("api_key") apiKey: String,
-        @Query("dataType") dataType: List<String>?,
-        @Query("pageSize") pageSize: Int?,
-        @Query("pageNumber") pageNumber: Int?,
-        @Query("sortBy") sortBy: String?,
-        @Query("sortOrder") sortOrder: String?
-    ): List<FoodItemDetail>
-
     @GET("foods/search")
     suspend fun searchFoods(
         @Query("api_key") apiKey: String,
@@ -74,22 +56,6 @@ class FtcFoodAPI(private val apiKey: String = BuildConfig.FDC_API_KEY) { //Wrapp
         format: String? = null,
         nutrients: List<Int>? = null
     ): FoodItemDetail = service.getFood(fdcId, apiKey, format, nutrients)
-
-    suspend fun getFoods(
-        fdcIds: List<Int>,
-        format: String? = null,
-        nutrients: List<Int>? = null
-    ): List<FoodItemDetail> = service.getFoods(fdcIds, apiKey, format, nutrients)
-
-
-    suspend fun listFoods(
-        dataType: List<String>? = null,
-        pageSize: Int? = null,
-        pageNumber: Int? = null,
-        sortBy: String? = null,
-        sortOrder: String? = null
-    ): List<FoodItemDetail> =
-        service.listFoods(apiKey, dataType, pageSize, pageNumber, sortBy, sortOrder)
 
     suspend fun searchFoods(
         query: String,
