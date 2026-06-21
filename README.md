@@ -10,13 +10,27 @@ The application is a meal tracker for planning meals and tracking calories for e
   <img src="images/login.png" alt="Login screen" width="250">
 
 - **Food search:** search the USDA FoodData Central (FDC) database by name and view per-result nutrition summaries (calories, protein, fat, carbs)
+
+  <img src="images/search.png" alt="Search screen" width="250">
+
 - **Food details:** open a dialog with the full nutrient breakdown for any search result or saved food
+
+  <img src="images/details.png" alt="Details screen" width="250">
+
 - **My Foods:** save foods to a personal list scoped to logged-in user, with:
   - Sorting by name, calories, or protein (ascending/descending), persisted between sessions
   - Pagination (10 items per page)
   - Removal option with confirmation
+
+  <img src="images/my_foods.png" alt="My Foods screen" width="250">
+
 - **Dark / light theme:** toggle from the home screen, the choice is persisted
+
+  <img src="images/dark_mode.png" alt="Dark Mode" width="250">
+
 - **Developer settings:** override the FDC API key at runtime (e.g. to swap in a personal key), reachable via cog icon on login, register, and home screens
+
+  <img src="images/developer_settings.png" alt="Developer Settings" width="250">
 
 ## Tech stack
 
