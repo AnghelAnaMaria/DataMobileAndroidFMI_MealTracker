@@ -7,7 +7,7 @@ The application is a meal tracker for planning meals and tracking calories for e
 
 - **Authentication:** register, log in, log out, and reset a forgotten password via email, using Firebase Authentication
 
-  ![Login screen](images/login.png)
+  <img src="images/login.png" alt="Login screen" width="250">
 
 - **Food search:** search the USDA FoodData Central (FDC) database by name and view per-result nutrition summaries (calories, protein, fat, carbs)
 - **Food details:** open a dialog with the full nutrient breakdown for any search result or saved food
